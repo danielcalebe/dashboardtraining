@@ -19,7 +19,7 @@ const dbConfig = {
 
 // Middleware para definir o Content-Type como application/json para a API
 app.use((req, res, next) => {
-  if (req.path.startsWith('/api/')) {
+  if (req.path.startsWith('https://dashboardtraining.vercel.app/api/')) {
     res.setHeader('Content-Type', 'application/json');
   }
   next();
@@ -56,7 +56,7 @@ app.get('/api/data', async (req, res) => {
 });
 
 // Endpoint para obter dados dos departamentos
-app.get('/api/departamentos', async (req, res) => {
+app.get('https://dashboardtraining.vercel.app/api/departamentos', async (req, res) => {
   const dataInicial = new Date();
   dataInicial.setDate(dataInicial.getDate() - 30);
   const dataFormatada = dataInicial.toISOString().slice(0, 10);
@@ -80,7 +80,7 @@ app.get('/api/departamentos', async (req, res) => {
 });
 
 // Endpoint para obter dados de lucro mensal filtrados por ano
-app.get('/api/lucro-mensal', async (req, res) => {
+app.get('https://dashboardtraining.vercel.app/api/lucro-mensal', async (req, res) => {
   const year = req.query.year || new Date().getFullYear();
   const query = `
     SELECT 
@@ -120,7 +120,7 @@ app.get('/api/lucro-mensal', async (req, res) => {
 
 // Endpoint para obter dados de 'a_receber', 'a_pagar', 'vendas_mensais' e 'lucro_mensal'
 // Endpoint para obter dados de 'a_receber', 'a_pagar', 'vendas_mensais' e 'lucro_mensal'
-app.get('/api/dashboard-data', async (req, res) => {
+app.get('https://dashboardtraining.vercel.app/api/dashboard-data', async (req, res) => {
   try {
     const connection = await pool.getConnection();
 
@@ -178,7 +178,7 @@ app.get('/api/dashboard-data', async (req, res) => {
 
 
 // Endpoint para obter os 5 produtos mais vendidos
-app.get('/api/top5-produtos', async (req, res) => {
+app.get('https://dashboardtraining.vercel.app/api/top5-produtos', async (req, res) => {
   try {
     const query = `
       SELECT 
@@ -210,5 +210,5 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // Iniciar o servidor
 app.listen(port, () => {
-  console.log(`Servidor rodando em http://localhost:${port}`);
+  console.log(`Servidor rodando em https://dashboardtraining.vercel.app${port}`);
 });
