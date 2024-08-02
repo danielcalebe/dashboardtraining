@@ -14,7 +14,7 @@ const dbConfig = {
   host: process.env.MYSQL_HOST || 'mysql-2221c92b-danielcalebe719-2b82.l.aivencloud.com',
   port: process.env.MYSQL_PORT || 25538,
   user: process.env.MYSQL_USER || 'avnadmin',
-  password: process.env.MYSQL_PASSWORD || '',
+  password: process.env.MYSQL_PASSWORD || 'AVNS_MRgcH_4ZC0MTrUnxZpv',
   database: process.env.MYSQL_DATABASE || 'defaultdb',
 };
 
