@@ -1,25 +1,23 @@
 const express = require('express');
 const mysql = require('mysql2/promise');
 const path = require('path');
-const fs = require('fs');
 const app = express();
 const port = process.env.PORT || 25538;
 
 // Configuração do banco de dados MySQL
 const dbConfig = {
   connectionLimit: 10,
-  connectTimeout: 60000, // Tempo limite de conexão aumentado para 60 segundos
+  connectTimeout: 60000,
   host: process.env.MYSQL_HOST || 'mysql-2221c92b-danielcalebe719-2b82.l.aivencloud.com',
-  port: 25538, // Porta do serviço MySQL no Aiven
+  port: 25538,
   user: process.env.MYSQL_USER || 'avnadmin',
   password: process.env.MYSQL_PASSWORD || 'AVNS_MRgcH_4ZC0MTrUnxZpv',
   database: process.env.MYSQL_DATABASE || 'defaultdb',
-
 };
 
 // Middleware para definir o Content-Type como application/json para a API
 app.use((req, res, next) => {
-  if (req.path.startsWith('https://dashboardtraining.vercel.app/api/')) {
+  if (req.path.startsWith('/api/')) {
     res.setHeader('Content-Type', 'application/json');
   }
   next();
@@ -42,21 +40,8 @@ async function testMySQLConnection() {
 // Chama a função de teste de conexão antes de iniciar o servidor
 testMySQLConnection();
 
-// Rota de exemplo para consultar dados do banco de dados
-app.get('/api/data', async (req, res) => {
-  try {
-    const connection = await pool.getConnection();
-    const [rows, fields] = await connection.execute('SELECT * FROM sua_tabela');
-    connection.release();
-    res.json(rows);
-  } catch (error) {
-    console.error('Erro ao consultar o banco de dados:', error);
-    res.status(500).json({ error: 'Erro ao consultar o banco de dados' });
-  }
-});
-
 // Endpoint para obter dados dos departamentos
-app.get('https://dashboardtraining.vercel.app/api/departamentos', async (req, res) => {
+app.get('/api/departamentos', async (req, res) => {
   const dataInicial = new Date();
   dataInicial.setDate(dataInicial.getDate() - 30);
   const dataFormatada = dataInicial.toISOString().slice(0, 10);
@@ -80,7 +65,7 @@ app.get('https://dashboardtraining.vercel.app/api/departamentos', async (req, re
 });
 
 // Endpoint para obter dados de lucro mensal filtrados por ano
-app.get('https://dashboardtraining.vercel.app/api/lucro-mensal', async (req, res) => {
+app.get('/api/lucro-mensal', async (req, res) => {
   const year = req.query.year || new Date().getFullYear();
   const query = `
     SELECT 
@@ -118,9 +103,8 @@ app.get('https://dashboardtraining.vercel.app/api/lucro-mensal', async (req, res
   }
 });
 
-// Endpoint para obter dados de 'a_receber', 'a_pagar', 'vendas_mensais' e 'lucro_mensal'
-// Endpoint para obter dados de 'a_receber', 'a_pagar', 'vendas_mensais' e 'lucro_mensal'
-app.get('https://dashboardtraining.vercel.app/api/dashboard-data', async (req, res) => {
+// Endpoint para obter dados do dashboard
+app.get('/api/dashboard-data', async (req, res) => {
   try {
     const connection = await pool.getConnection();
 
@@ -176,9 +160,8 @@ app.get('https://dashboardtraining.vercel.app/api/dashboard-data', async (req, r
   }
 });
 
-
 // Endpoint para obter os 5 produtos mais vendidos
-app.get('https://dashboardtraining.vercel.app/api/top5-produtos', async (req, res) => {
+app.get('/api/top5-produtos', async (req, res) => {
   try {
     const query = `
       SELECT 
@@ -210,5 +193,5 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // Iniciar o servidor
 app.listen(port, () => {
-  console.log(`Servidor rodando em https://dashboardtraining.vercel.app${port}`);
+  console.log(`Servidor rodando em http://localhost:${port}`);
 });
