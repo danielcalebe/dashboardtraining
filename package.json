@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Dashboard integrando node js e chart.js ",
   "scripts": {
-    "start": "npm start",
+    "start": "node server.js",
     "pdf:generate": "node pdfGenerator.js"
   },
   "dependencies": {
