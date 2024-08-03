@@ -2,7 +2,10 @@ const express = require('express');
 const mysql = require('mysql2/promise');
 const path = require('path');
 const app = express();
-const port = process.env.PORT || 25538;
+const port = process.env.PORT || 25537;
+const fs = require('fs');
+const PDFDocument = require('pdfkit');
+
 
 // Configuração do banco de dados MySQL
 const dbConfig = {
